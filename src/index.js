@@ -8,6 +8,7 @@ import {
     View,
     TouchableWithoutFeedback
 } from 'react-native';
+import DoubleTap from './DoubleTap';
 
 const w = Dimensions.get('window');
 
@@ -18,28 +19,16 @@ export default class App extends React.Component {
 
     toggleLike = () => this.setState(state => ({ liked: !state.liked }));
 
-    lastTap = null;
-    handleDoubleTap = () => {
-      const now = Date.now();
-      const DOUBLE_PRESS_DALAY = 300;
-      if (this.lastTap && (now - this.lastTap) < DOUBLE_PRESS_DALAY) {
-          this.toggleLike();
-      } else {
-          this.lastTap = now;
-      }
-
-    };
-
     render() {
         return (
           <View style={styles.container}>
-              <TouchableWithoutFeedback onPress={this.handleDoubleTap}>
+              <DoubleTap onDoubleTap={ this.toggleLike }>
                   <Image
                       source={{ uri: `https://images.pexels.com/photos/671557/pexels-photo-671557.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=${ w.width }`}}
                       style={{ width: w.width, height: w.width }}
                       resizeMode="cover"
                   />
-              </TouchableWithoutFeedback>
+              </DoubleTap>
               <View style={styles.iconRow}>
                   <TouchableOpacity onPress={this.toggleLike }>
                       <Image
